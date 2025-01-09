@@ -43,8 +43,8 @@ class RolesAndPermissionsSeeder extends Seeder
         $permission4 = Permission::create(['name' => 'delete: permission']);
 
         // Admins
-        $adminPermission1 = Permission::create(['name' => 'read: user']);
-        $adminPermission2 = Permission::create(['name' => 'update: user']);
+        $adminPermission1 = Permission::create(['name' => 'read: admin']);
+        $adminPermission2 = Permission::create(['name' => 'update: admin']);
 
         // Create Roles
         $userRole = Role::create(['name' => 'user'])->syncPermissions([
