@@ -27,51 +27,29 @@ class FilamentServiceProvider extends ServiceProvider
         Filament::serving(function() {
 
             // Provider show/hidden based on Role of the user
-            // But it doesnt work
+            if (auth()->user()) {
+                if (auth()->user()->is_admin === 1 && auth()->user()->hasAnyRole(['super', 'admin', 'moderator'])) {
+                    Filament::registerUserMenuItems([
+                        UserMenuItem::make()
+                            ->label('Manage Users')
+                            ->url(UserResource::getUrl())
+                            ->icon('heroicon-s-users')
+                    ]);
+                    Filament::registerUserMenuItems([
+                        UserMenuItem::make()
+                            ->label('Manage Roles')
+                            ->url(RoleResource::getUrl())
+                            ->icon('heroicon-s-cog')
+                    ]);
+                    Filament::registerUserMenuItems([
+                        UserMenuItem::make()
+                            ->label('Manage Permissions')
+                            ->url(PermissionResource::getUrl())
+                            ->icon('heroicon-s-key')
+                    ]);
+                }
+            }
 
-            // if (auth()->user()) {
-            //     if (auth()->user()->is_admin === 1 && auth()->user()->hasAnyRole(['super-admin', 'admin', 'moderator'])) {
-            //         Filament::registerUserMenuItems([
-            //             UserMenuItem::make()
-            //                 ->label('Manage Users')
-            //                 ->url(UserResource::getUrl())
-            //                 ->icon('heroicon-s-users')
-            //         ]);
-            //         Filament::registerUserMenuItems([
-            //             UserMenuItem::make()
-            //                 ->label('Manage Roles')
-            //                 ->url(RoleResource::getUrl())
-            //                 ->icon('heroicon-s-cog')
-            //         ]);
-            //         Filament::registerUserMenuItems([
-            //             UserMenuItem::make()
-            //                 ->label('Manage Permissions')
-            //                 ->url(PermissionResource::getUrl())
-            //                 ->icon('heroicon-s-key')
-            //         ]);
-            //     }
-            // }
-
-
-            // Temporary Code Without Authenctication based on Role
-            Filament::registerUserMenuItems([
-                UserMenuItem::make()
-                    ->label('Manage Users')
-                    ->url(UserResource::getUrl())
-                    ->icon('heroicon-s-users')
-            ]);
-            Filament::registerUserMenuItems([
-                UserMenuItem::make()
-                    ->label('Manage Roles')
-                    ->url(RoleResource::getUrl())
-                    ->icon('heroicon-s-cog')
-            ]);
-            Filament::registerUserMenuItems([
-                UserMenuItem::make()
-                    ->label('Manage Permissions')
-                    ->url(PermissionResource::getUrl())
-                    ->icon('heroicon-s-key')
-            ]);
         });
     }
 }
