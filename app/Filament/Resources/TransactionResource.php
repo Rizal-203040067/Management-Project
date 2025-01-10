@@ -53,9 +53,9 @@ class TransactionResource extends Resource
                     ->description(fn (Transaction $record): string => $record->name)
                     ->label('Transaction'),
                 Tables\Columns\IconColumn::make('category.is_expense')
-                    ->label('Finance')
-                    ->trueIcon('Heroicon-o-arrow-up-circle')
-                    ->falseIcon('Heroicon-o-arrow-down-circle')
+                    ->label('Expense')
+                    ->trueIcon('icon-trending-down')
+                    ->falseIcon('icon-trending-up')
                     ->trueColor('danger')
                     ->falseColor('success')
                     ->boolean(),
