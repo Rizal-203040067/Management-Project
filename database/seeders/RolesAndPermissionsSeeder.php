@@ -67,7 +67,7 @@ class RolesAndPermissionsSeeder extends Seeder
             $adminPermission2,
             $userPermission1,
         ]);
-        $adminRole = Role::create(['name' => 'admin'])->syncPermissions([
+        $managerRole = Role::create(['name' => 'manager'])->syncPermissions([
             $userPermission1,
             $userPermission2,
             $userPermission3,
@@ -84,13 +84,13 @@ class RolesAndPermissionsSeeder extends Seeder
             $adminPermission2,
             $userPermission1,
         ]);
-        $moderatorRole = Role::create(['name' => 'moderator'])->syncPermissions([
+        $financeRole = Role::create(['name' => 'finance'])->syncPermissions([
             $userPermission2,
             $rolePermission2,
             $permission2,
             $adminPermission1,
         ]);
-        $developerRole = Role::create(['name' => 'developer'])->syncPermissions([
+        $staffRole = Role::create(['name' => 'staff'])->syncPermissions([
             $adminPermission1,
         ]);
 
@@ -104,31 +104,31 @@ class RolesAndPermissionsSeeder extends Seeder
         ])->assignRole($superAdminRole);
         
         User::create([
-            'name' => 'admin',
+            'name' => 'manager',
             'is_admin' => 1,
-            'email' => 'admin@admin.com',
+            'email' => 'manager@admin.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
-        ])->assignRole($adminRole);
+        ])->assignRole($managerRole);
         
         User::create([
-            'name' => 'moderator',
+            'name' => 'finance',
             'is_admin' => 1,
-            'email' => 'moderator@admin.com',
+            'email' => 'finance@admin.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
-        ])->assignRole($moderatorRole);
+        ])->assignRole($financeRole);
 
         User::create([
-            'name' => 'developer',
+            'name' => 'staff',
             'is_admin' => 1,
-            'email' => 'developer@admin.com',
+            'email' => 'staff@admin.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
-        ])->assignRole($developerRole);
+        ])->assignRole($staffRole);
 
         for ($i=1; $i < 50; $i++) {
             User::create([
