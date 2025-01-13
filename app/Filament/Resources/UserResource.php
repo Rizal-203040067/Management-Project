@@ -30,6 +30,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'Admin Management';
 
+    protected static ?int $navigationSort = 1;
+
     // protected static ?string $shouldRegisterNavigation = false; 
 
     public static function form(Form $form): Form

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Resources\OrderResource\Pages;
+use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Models\Order;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,17 +13,15 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CategoryResource extends Resource
+class OrderResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Finance';
+    protected static ?string $navigationGroup = 'Orders';
 
-    protected static ?int $navigationSort = 2;
-
-
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -32,11 +30,14 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('is_expense')
+                Forms\Components\Select::make('customer_id')
+                    ->relationship('customer', 'name')
                     ->required(),
-                Forms\Components\FileUpload::make('image')
-                    ->image()
+                Forms\Components\DatePicker::make('date_order')
                     ->required(),
+                Forms\Components\TextInput::make('amount')
+                    ->required()
+                    ->numeric(),
             ]);
     }
 
@@ -44,24 +45,24 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_expense')
-                    ->trueIcon('icon-trending-down')
-                    ->falseIcon('icon-trending-up')
-                    ->trueColor('danger')
-                    ->falseColor('success')
-                    ->boolean(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('customer.name')
+                    ->label('Customer'),
+                Tables\Columns\TextColumn::make('date_order')
+                ->sortable(),
+                Tables\Columns\TextColumn::make('amount')
+                ->date()
+                    ->numeric()
+                    ->money('IDR', locale:'id')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -89,9 +90,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListOrders::route('/'),
+            'create' => Pages\CreateOrder::route('/create'),
+            'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 }
