@@ -29,6 +29,7 @@ class WidgetIncomeChart extends ChartWidget
             now();
 
         $data = Trend::query(Transaction::incomes())
+            ->dateColumn('date_transaction')
             ->between(
                 start: $startDate,
                 end: $endDate,

@@ -27,12 +27,16 @@ class WidgetExpenseChart extends ChartWidget
             now();
 
         $data = Trend::query(Transaction::expenses())
+            ->dateColumn('date_transaction')
             ->between(
                 start: $startDate,
                 end: $endDate,
             )
             ->perDay()
             ->sum('amount');
+
+        // dd($data);
+
     
         return [
             'datasets' => [
