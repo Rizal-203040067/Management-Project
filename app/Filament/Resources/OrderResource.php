@@ -27,15 +27,20 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('order_number')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('customer_id')
                     ->relationship('customer', 'name')
                     ->required(),
-                Forms\Components\DatePicker::make('date_order')
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'completed' => 'Completed',
+                        'cancelled' => 'Cancelled',
+                    ])
                     ->required(),
-                Forms\Components\TextInput::make('amount')
+                Forms\Components\TextInput::make('total_amount')
                     ->required()
                     ->numeric(),
             ]);
@@ -45,16 +50,25 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('order_number')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('customer.name')
-                    ->label('Customer'),
-                Tables\Columns\TextColumn::make('date_order')
-                ->sortable(),
-                Tables\Columns\TextColumn::make('amount')
-                ->date()
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\BadgeColumn::make('status')
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'pending' => 'Pending',
+                        'completed' => 'Completed',
+                        'cancelled' => 'Cancelled',
+                        default => ucfirst($state),
+                    })
+                    ->colors([
+                        'primary' => 'pending',
+                        'success' => 'completed',
+                        'danger' => 'cancelled',
+                    ]),
+                Tables\Columns\TextColumn::make('total_amount')
                     ->numeric()
                     ->money('IDR', locale:'id')
                     ->sortable(),

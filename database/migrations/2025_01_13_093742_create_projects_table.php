@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
+            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->string('name');
-            $table->boolean('is_done')->default(false);
-            $table->date('deadline');
             $table->string('model');
+            $table->integer('budget');
+            $table->enum('status', ['ongoing', 'completed', 'on-hold'])->default('ongoing');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('description');
             $table->timestamps();
         });

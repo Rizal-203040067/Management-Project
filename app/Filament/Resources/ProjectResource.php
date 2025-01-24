@@ -30,16 +30,32 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('order_id')
+                    ->relationship('order', 'order_number')
+                    ->required(),
+                Forms\Components\Select::make('customer_id')
+                    ->relationship('customer', 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('is_done')
-                    ->required(),
-                Forms\Components\DatePicker::make('deadline')
-                    ->required(),
                 Forms\Components\TextInput::make('model')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('budget')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'ongoing' => 'Ongoing',
+                        'completed' => 'Completed',
+                        'on-hold' => 'On Hold',
+                    ])
+                    ->required(),
+                Forms\Components\DatePicker::make('start_date')
+                    ->required(),
+                Forms\Components\DatePicker::make('end_date')
+                    ->required(),
                 Forms\Components\TextArea::make('description')
                     ->required()
                     ->maxLength(1024)
@@ -53,15 +69,30 @@ class ProjectResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_done')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('deadline')
-                    ->date()
+                Tables\Columns\TextColumn::make('order.order_number')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('customer.name')
+                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('model')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('budget')
+                    ->numeric()
+                    ->money('IDR', locale:'id')
+                    ->sortable(),
+                Tables\Columns\BadgeColumn::make('status')
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'ongoing' => 'Ongoing',
+                        'completed' => 'Completed',
+                        'on-hold' => 'On Hold',
+                        default => ucfirst($state),
+                    })
+                    ->colors([
+                        'primary' => 'ongoing',
+                        'success' => 'completed',
+                        'warning' => 'on-hold',
+                    ]),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
