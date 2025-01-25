@@ -8,9 +8,13 @@ use App\Models\Transaction;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
-class StatsOverview extends BaseWidget
+class FinanceStatsOverview extends BaseWidget
 {
     use InteractsWithPageFilters;
+
+    // protected ?string $heading = 'Finance';
+
+    protected static ?int $sort = 1;
 
     protected function getStats(): array
     {
@@ -19,8 +23,8 @@ class StatsOverview extends BaseWidget
             null;
 
         $endDate = ! is_null($this->filters['endDate'] ?? null) ?
-            Carbon::parse($this->filters['endDate']) :
-            now();
+            Carbon::parse($this->filters['endDate'])->endOfDay() :
+            now()->endOfDay();
 
         $income = Transaction::incomes()
                     ->whereBetween('date_transaction', [$startDate, $endDate])

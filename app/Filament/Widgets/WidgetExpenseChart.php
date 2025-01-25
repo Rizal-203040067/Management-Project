@@ -16,6 +16,8 @@ class WidgetExpenseChart extends ChartWidget
     protected static ?string $heading = 'Expense';
     protected static string $color = 'danger';
 
+    protected static ?int $sort = 2;
+
     protected function getData(): array
     {
         $startDate = ! is_null($this->filters['startDate'] ?? null) ?
@@ -23,8 +25,8 @@ class WidgetExpenseChart extends ChartWidget
             null;
 
         $endDate = ! is_null($this->filters['endDate'] ?? null) ?
-            Carbon::parse($this->filters['endDate']) :
-            now();
+            Carbon::parse($this->filters['endDate'])->endOfDay() :
+            now()->endOfDay();
 
         $data = Trend::query(Transaction::expenses())
             ->dateColumn('date_transaction')

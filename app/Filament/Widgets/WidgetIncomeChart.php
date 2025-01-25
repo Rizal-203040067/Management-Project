@@ -17,6 +17,8 @@ class WidgetIncomeChart extends ChartWidget
 
     protected static string $color = 'success';
 
+    protected static ?int $sort = 2;
+
 
     protected function getData(): array
     {
@@ -25,8 +27,8 @@ class WidgetIncomeChart extends ChartWidget
             null;
 
         $endDate = ! is_null($this->filters['endDate'] ?? null) ?
-            Carbon::parse($this->filters['endDate']) :
-            now();
+            Carbon::parse($this->filters['endDate'])->endOfDay() :
+            now()->endOfDay();
 
         $data = Trend::query(Transaction::incomes())
             ->dateColumn('date_transaction')
