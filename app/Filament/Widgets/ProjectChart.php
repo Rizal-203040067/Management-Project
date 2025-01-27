@@ -2,20 +2,20 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Order;
+use App\Models\Project;
 use Carbon\Carbon;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
 
-class OrderChart extends ChartWidget
+class ProjectChart extends ChartWidget
 {
     use InteractsWithPageFilters;
 
     // protected int | string | array $columnSpan = 'full';
 
-    protected static ?string $heading = 'Order Status Distribution';
+    protected static ?string $heading = 'Project Status Distribution';
 
     protected static string $color = 'info';
 
@@ -32,26 +32,26 @@ class OrderChart extends ChartWidget
             now()->endOfDay();
 
         // Get counts for each status
-        $pendingCount = Order::where('status', 'pending')
+        $ongoingCount = Project::where('status', 'ongoing')
                     ->whereBetween('created_at', [$startDate, $endDate])
                     ->count();
 
-        $completedCount = Order::where('status', 'completed')
+        $completedCount = Project::where('status', 'completed')
                     ->whereBetween('created_at', [$startDate, $endDate])
                     ->count();
 
-        $cancelledCount = Order::where('status', 'cancelled')
+        $onholdCount = Project::where('status', 'onhold')
                     ->whereBetween('created_at', [$startDate, $endDate])
                     ->count(); 
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Order Status',
+                    'label' => 'Project Status',
                     'data' => [
-                        $pendingCount,
+                        $ongoingCount,
                         $completedCount,
-                        $cancelledCount,
+                        $onholdCount,
                     ],
                     'backgroundColor' => [
                         '#FFCE56',
@@ -60,7 +60,7 @@ class OrderChart extends ChartWidget
                     ],
                 ],
             ],
-            'labels' => ['Pending', 'Completed', 'Cancelled'],
+            'labels' => ['Ongoing', 'Completed', 'Onhold'],
         ];
     }
 
