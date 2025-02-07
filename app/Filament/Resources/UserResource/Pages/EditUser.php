@@ -2,9 +2,13 @@
 
 namespace App\Filament\Resources\UserResource\Pages;
 
-use App\Filament\Resources\UserResource;
 use Filament\Actions;
+use Illuminate\Support\Facades\Log;
+use Spatie\Activitylog\Models\Activity;
+use App\Filament\Resources\UserResource;
 use Filament\Resources\Pages\EditRecord;
+
+
 
 class EditUser extends EditRecord
 {
@@ -20,5 +24,10 @@ class EditUser extends EditRecord
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
+    }
+
+    protected function afterSave(): void
+    {
+        Log::info('User updated by admin', ['user_id' => $this->record->id, 'updated_at' => now()]);
     }
 }

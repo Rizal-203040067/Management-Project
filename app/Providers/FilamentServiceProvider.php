@@ -28,7 +28,7 @@ class FilamentServiceProvider extends ServiceProvider
 
             // Provider show/hidden based on Role of the user
             if (auth()->user()) {
-                if (auth()->user()->is_admin === 1 && auth()->user()->hasAnyRole(['super', 'admin', 'moderator'])) {
+                if (auth()->user()->is_admin === 1 && auth()->user()->hasAnyRole(['super', 'manager', 'staff'])) {
                     Filament::registerUserMenuItems([
                         UserMenuItem::make()
                             ->label('Manage Users')

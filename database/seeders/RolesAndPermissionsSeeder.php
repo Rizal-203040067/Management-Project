@@ -50,7 +50,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $userRole = Role::create(['name' => 'user'])->syncPermissions([
             $miscPermission,
         ]);
-        $superAdminRole = Role::create(['name' => 'super'])->syncPermissions([
+        $superRole = Role::create(['name' => 'super'])->syncPermissions([
             $userPermission1,
             $userPermission2,
             $userPermission3,
@@ -101,7 +101,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
-        ])->assignRole($superAdminRole);
+        ])->assignRole($superRole);
         
         User::create([
             'name' => 'manager',

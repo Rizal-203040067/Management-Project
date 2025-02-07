@@ -13,6 +13,9 @@ use Spatie\Permission\Traits\HasRoles;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -25,6 +28,10 @@ class User extends Authenticatable implements FilamentUser
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;
+    use LogsActivity;
+
+    protected static $logAttributes = ['name', 'email', 'is_admin'];
+    protected static $logName = 'user';
 
     /**
      * The attributes that are mass assignable.
@@ -70,6 +77,19 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "User has been {$eventName}";
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'is_admin']) // Field yang akan dicatat dalam log
+            ->useLogName('user') // Nama log
+            ->setDescriptionForEvent(fn(string $eventName) => "User has been {$eventName}"); // Deskripsi log
     }
 
     public function canAccessPanel(Panel $panel): bool {

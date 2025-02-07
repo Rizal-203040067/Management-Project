@@ -18,7 +18,7 @@ class PermissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['super','admin','moderator']);
+        return $user->hasAnyRole(['super','manager','staff']);
     }
 
 
@@ -29,7 +29,7 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['super','admin']);
+        return $user->hasAnyRole(['super','manager']);
     }
 
     /**
@@ -40,7 +40,7 @@ class PermissionPolicy
      */
     public function update(User $user, Permission $permission): bool
     {
-        return $user->hasAnyRole(['super','admin']);
+        return $user->hasAnyRole(['super','manager']);
     }
 
     /**
@@ -51,7 +51,7 @@ class PermissionPolicy
      */
     public function delete(User $user, Permission $permission): bool
     {
-        return $user->hasAnyRole(['super','admin']);
+        return $user->hasAnyRole(['super','manager']);
     }
 
 }
