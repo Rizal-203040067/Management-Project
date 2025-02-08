@@ -20,6 +20,9 @@ class CreateUser extends CreateRecord
 
     protected function afterSave(): void
     {
-        Log::info('User created by admin', ['user_id' => $this->record->id, 'updated_at' => now()]);
+        activity()
+            ->performedOn($this->record)
+            ->causedBy(Auth::user())
+            ->withProperties(['attributes' => $this->record->toArray()]);
     }
 }

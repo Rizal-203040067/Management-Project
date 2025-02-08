@@ -28,6 +28,9 @@ class EditUser extends EditRecord
 
     protected function afterSave(): void
     {
-        Log::info('User updated by admin', ['user_id' => $this->record->id, 'updated_at' => now()]);
+        activity()
+            ->performedOn($this->record)
+            ->causedBy(Auth::user())
+            ->withProperties(['attributes' => $this->record->toArray()]);
     }
 }
