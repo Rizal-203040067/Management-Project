@@ -2,11 +2,20 @@
 
 namespace App\Filament\Resources\OrderResource\Pages;
 
-use App\Filament\Resources\OrderResource;
 use Filament\Actions;
+use Illuminate\Support\Facades\Auth;
+use App\Filament\Resources\OrderResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateOrder extends CreateRecord
 {
     protected static string $resource = OrderResource::class;
+
+    protected function afterSave(): void
+    {
+        activity()
+            ->performedOn($this->record)
+            ->causedBy(Auth::user())
+            ->withProperties(['attributes' => $this->record->toArray()]);
+    }
 }

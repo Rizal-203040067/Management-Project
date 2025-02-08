@@ -3,11 +3,9 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use Filament\Actions;
-use Illuminate\Support\Facades\Log;
-use Spatie\Activitylog\Models\Activity;
 use App\Filament\Resources\UserResource;
 use Filament\Resources\Pages\CreateRecord;
-
+use Illuminate\Support\Facades\Auth;
 
 class CreateUser extends CreateRecord
 {

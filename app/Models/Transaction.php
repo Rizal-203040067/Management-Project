@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Transaction extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'name',
@@ -18,6 +21,14 @@ class Transaction extends Model
         'note',
         'image',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'date_transaction', 'amount', 'note', 'image'])
+            ->useLogName('Transaction')
+            ->setDescriptionForEvent(fn(string $eventName) => "Transaction has been {$eventName}");
+    }
 
     public function category(): BelongsTo {
         return $this->belongsTo(Category::class);

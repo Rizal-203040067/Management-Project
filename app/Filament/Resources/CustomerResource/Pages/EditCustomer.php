@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\CustomerResource\Pages;
 
-use App\Filament\Resources\CustomerResource;
 use Filament\Actions;
+use App\Filament\Resources\CustomerResource;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Auth;
+
 
 class EditCustomer extends EditRecord
 {
@@ -15,5 +17,13 @@ class EditCustomer extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function afterSave(): void
+    {
+        activity()
+            ->performedOn($this->record)
+            ->causedBy(Auth::user())
+            ->withProperties(['attributes' => $this->record->toArray()]);
     }
 }

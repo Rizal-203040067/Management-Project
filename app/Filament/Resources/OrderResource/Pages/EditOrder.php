@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\OrderResource\Pages;
 
-use App\Filament\Resources\OrderResource;
 use Filament\Actions;
+use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\OrderResource;
 
 class EditOrder extends EditRecord
 {
@@ -15,5 +16,13 @@ class EditOrder extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function afterSave(): void
+    {
+        activity()
+            ->performedOn($this->record)
+            ->causedBy(Auth::user())
+            ->withProperties(['attributes' => $this->record->toArray()]);
     }
 }

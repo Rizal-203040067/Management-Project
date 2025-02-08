@@ -30,9 +30,6 @@ class User extends Authenticatable implements FilamentUser
     use TwoFactorAuthenticatable;
     use LogsActivity;
 
-    protected static $logAttributes = ['name', 'email', 'is_admin'];
-    protected static $logName = 'user';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -79,17 +76,12 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
-    public function getDescriptionForEvent(string $eventName): string
-    {
-        return "User has been {$eventName}";
-    }
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'email', 'is_admin']) // Field yang akan dicatat dalam log
-            ->useLogName('user') // Nama log
-            ->setDescriptionForEvent(fn(string $eventName) => "User has been {$eventName}"); // Deskripsi log
+            ->logOnly(['name', 'email', 'is_admin'])
+            ->useLogName('User')
+            ->setDescriptionForEvent(fn(string $eventName) => "User has been {$eventName}");
     }
 
     public function canAccessPanel(Panel $panel): bool {
