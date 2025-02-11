@@ -23,7 +23,7 @@ use App\Filament\Resources\RoleResource\RelationManagers\PermissionsRelationMana
 
 class RoleResource extends Resource
 {
-    protected static ?string $model = Role::class;
+    protected static ?string $model = \App\Models\Role::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-cog';
 

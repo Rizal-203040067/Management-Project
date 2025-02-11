@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use Filament\Actions;
-use App\Filament\Resources\UserResource;
-use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\UserResource;
 
 class CreateUser extends CreateRecord
 {
