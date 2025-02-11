@@ -18,8 +18,6 @@ class ActivityLogResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationGroup = 'Admin Management';
-
     public static function canCreate(): bool
     {
         return false;

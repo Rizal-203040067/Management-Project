@@ -3,11 +3,11 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Project;
 use Illuminate\Auth\Access\Response;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PermissionPolicy
+class ProjectPolicy
 {
     use HandlesAuthorization;
 
@@ -18,9 +18,8 @@ class PermissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['super']);
+        return $user->hasAnyRole(['super', 'manager', 'staff', 'finance']);
     }
-
 
     /**
      * Determine whether the user can create models.
@@ -29,29 +28,29 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['super']);
+        return $user->hasAnyRole(['super', 'manager']);
     }
 
     /**
      * Determine whether the user can update the model.
      * @param App\Models\User  $user
-     * @param Spatie\Permission\Models\Permission $permission
+     * @param Spatie\Permission\Models\Project $project
      * @return Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Permission $permission): bool
+    public function update(User $user, Project $project): bool
     {
-        return $user->hasAnyRole(['super']);
+        return $user->hasAnyRole(['super', 'manager', 'staff']);
     }
 
     /**
      * Determine whether the user can delete the model.
      * @param App\Models\User  $user
-     * @param Spatie\Permission\Models\Permission $permission
+     * @param Spatie\Permission\Models\Project $project
      * @return Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Permission $permission): bool
+    public function delete(User $user, Project $project): bool
     {
-        return $user->hasAnyRole(['super']);
+        return $user->hasAnyRole(['super', 'manager']);
     }
-
+    
 }

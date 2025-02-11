@@ -19,10 +19,13 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run(): void
     {
         // reset cached roles and permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         //Misc
         $miscPermission = Permission::create(['name' => 'N/A']);
+
+        // Activity Model
+        $activityPermission2 = Permission::create(['name' => 'read: activity']);
 
         // User Model
         $userPermission1 = Permission::create(['name' => 'create: user']);
@@ -46,11 +49,48 @@ class RolesAndPermissionsSeeder extends Seeder
         $adminPermission1 = Permission::create(['name' => 'read: admin']);
         $adminPermission2 = Permission::create(['name' => 'update: admin']);
 
+        // Category Model
+        $categoryPermission1 = Permission::create(['name' => 'create: category']);
+        $categoryPermission2 = Permission::create(['name' => 'read: category']);
+        $categoryPermission3 = Permission::create(['name' => 'update: category']);
+        $categoryPermission4 = Permission::create(['name' => 'delete: category']);
+
+        // Transaction Model
+        $transactionPermission1 = Permission::create(['name' => 'create: transaction']);
+        $transactionPermission2 = Permission::create(['name' => 'read: transaction']);
+        $transactionPermission3 = Permission::create(['name' => 'update: transaction']);
+        $transactionPermission4 = Permission::create(['name' => 'delete: transaction']);
+
+        // Customer Model
+        $customerPermission1 = Permission::create(['name' => 'create: customer']);
+        $customerPermission2 = Permission::create(['name' => 'read: customer']);
+        $customerPermission3 = Permission::create(['name' => 'update: customer']);
+        $customerPermission4 = Permission::create(['name' => 'delete: customer']);
+
+        // Order Model
+        $orderPermission1 = Permission::create(['name' => 'create: order']);
+        $orderPermission2 = Permission::create(['name' => 'read: order']);
+        $orderPermission3 = Permission::create(['name' => 'update: order']);
+        $orderPermission4 = Permission::create(['name' => 'delete: order']);
+
+        // Project Model
+        $projectPermission1 = Permission::create(['name' => 'create: project']);
+        $projectPermission2 = Permission::create(['name' => 'read: project']);
+        $projectPermission3 = Permission::create(['name' => 'update: project']);
+        $projectPermission4 = Permission::create(['name' => 'delete: project']);
+
+        // Task Model
+        $taskPermission1 = Permission::create(['name' => 'create: task']);
+        $taskPermission2 = Permission::create(['name' => 'read: task']);
+        $taskPermission3 = Permission::create(['name' => 'update: task']);
+        $taskPermission4 = Permission::create(['name' => 'delete: task']);
+
         // Create Roles
         $userRole = Role::create(['name' => 'user'])->syncPermissions([
             $miscPermission,
         ]);
         $superRole = Role::create(['name' => 'super'])->syncPermissions([
+            $activityPermission2,
             $userPermission1,
             $userPermission2,
             $userPermission3,
@@ -63,34 +103,68 @@ class RolesAndPermissionsSeeder extends Seeder
             $permission2,
             $permission3,
             $permission4,
+            $categoryPermission1,
+            $categoryPermission2,
+            $categoryPermission3,
+            $categoryPermission4,
+            $transactionPermission1,
+            $transactionPermission2,
+            $transactionPermission3,
+            $transactionPermission4,
+            $customerPermission1,
+            $customerPermission2,
+            $customerPermission3,
+            $customerPermission4,
+            $orderPermission1,
+            $orderPermission2,
+            $orderPermission3,
+            $orderPermission4,
+            $projectPermission1,
+            $projectPermission2,
+            $projectPermission3,
+            $projectPermission4,
+            $taskPermission1,
+            $taskPermission2,
+            $taskPermission3,
+            $taskPermission4,
             $adminPermission1,
             $adminPermission2,
-            $userPermission1,
         ]);
         $managerRole = Role::create(['name' => 'manager'])->syncPermissions([
-            $userPermission1,
-            $userPermission2,
-            $userPermission3,
-            $userPermission4,
-            $rolePermission1,
-            $rolePermission2,
-            $rolePermission3,
-            $rolePermission4,
-            $permission1,
-            $permission2,
-            $permission3,
-            $permission4,
-            $adminPermission1,
-            $adminPermission2,
-            $userPermission1,
-        ]);
-        $financeRole = Role::create(['name' => 'finance'])->syncPermissions([
-            $userPermission2,
-            $rolePermission2,
-            $permission2,
+            $orderPermission1,
+            $orderPermission2,
+            $orderPermission3,
+            $projectPermission1,
+            $projectPermission2,
+            $projectPermission3,
+            $projectPermission4,
+            $taskPermission1,
+            $taskPermission2,
+            $taskPermission3,
+            $taskPermission4,
             $adminPermission1,
         ]);
         $staffRole = Role::create(['name' => 'staff'])->syncPermissions([
+            $projectPermission2,
+            $projectPermission3,
+            $taskPermission1,
+            $taskPermission2,
+            $taskPermission3,
+            $taskPermission4,
+            $adminPermission1,
+        ]);
+        $financeRole = Role::create(['name' => 'finance'])->syncPermissions([
+            $categoryPermission1,
+            $categoryPermission2,
+            $categoryPermission3,
+            $categoryPermission4,
+            $transactionPermission1,
+            $transactionPermission2,
+            $transactionPermission3,
+            $transactionPermission4,
+            $projectPermission2,
+            $orderPermission2,
+            $orderPermission3,
             $adminPermission1,
         ]);
 

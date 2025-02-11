@@ -24,32 +24,35 @@ class FilamentServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Filament::serving(function() {
+        /*
+            Icon Profile DropBar
+            So, if i click the Icon Profile DropBar will show/hide
+        */
 
-            // Provider show/hidden based on Role of the user
-            if (auth()->user()) {
-                if (auth()->user()->is_admin === 1 && auth()->user()->hasAnyRole(['super', 'manager', 'staff'])) {
-                    Filament::registerUserMenuItems([
-                        UserMenuItem::make()
-                            ->label('Manage Users')
-                            ->url(UserResource::getUrl())
-                            ->icon('heroicon-s-users')
-                    ]);
-                    Filament::registerUserMenuItems([
-                        UserMenuItem::make()
-                            ->label('Manage Roles')
-                            ->url(RoleResource::getUrl())
-                            ->icon('heroicon-s-cog')
-                    ]);
-                    Filament::registerUserMenuItems([
-                        UserMenuItem::make()
-                            ->label('Manage Permissions')
-                            ->url(PermissionResource::getUrl())
-                            ->icon('heroicon-s-key')
-                    ]);
-                }
-            }
-
-        });
+        // Filament::serving(function() {   
+        //     // Provider show/hidden based on Role of the user
+        //     if (auth()->user()) {
+        //         if (auth()->user()->is_admin === 1 && auth()->user()->hasAnyRole(['super'])) {
+        //             Filament::registerUserMenuItems([
+        //                 UserMenuItem::make()
+        //                     ->label('Manage Users')
+        //                     ->url(UserResource::getUrl())
+        //                     ->icon('heroicon-s-users')
+        //             ]);
+        //             Filament::registerUserMenuItems([
+        //                 UserMenuItem::make()
+        //                     ->label('Manage Roles')
+        //                     ->url(RoleResource::getUrl())
+        //                     ->icon('heroicon-s-cog')
+        //             ]);
+        //             Filament::registerUserMenuItems([
+        //                 UserMenuItem::make()
+        //                     ->label('Manage Permissions')
+        //                     ->url(PermissionResource::getUrl())
+        //                     ->icon('heroicon-s-key')
+        //             ]);
+        //         }
+        //     }
+        // });
     }
 }
