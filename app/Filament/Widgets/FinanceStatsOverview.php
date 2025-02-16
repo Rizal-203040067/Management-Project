@@ -7,14 +7,18 @@ use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use App\Models\Transaction;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Illuminate\Support\Facades\Auth;
 
 class FinanceStatsOverview extends BaseWidget
 {
     use InteractsWithPageFilters;
 
-    // protected ?string $heading = 'Finance';
-
     protected static ?int $sort = 1;
+
+    public static function canView(): bool
+    {
+        return Auth::user() && Auth::user()->hasRole(['super', 'manager']);
+    }
 
     protected function getStats(): array
     {

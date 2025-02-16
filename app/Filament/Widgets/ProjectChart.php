@@ -9,17 +9,23 @@ use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
 
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+
 class ProjectChart extends ChartWidget
 {
     use InteractsWithPageFilters;
-
-    // protected int | string | array $columnSpan = 'full';
 
     protected static ?string $heading = 'Project Status Distribution';
 
     protected static string $color = 'info';
 
     protected static ?int $sort = 4;
+
+    public static function canView(): bool
+    {
+        return Auth::user() && Auth::user()->hasRole(['super', 'manager']);
+    }
 
     protected function getData(): array
     {
@@ -62,6 +68,13 @@ class ProjectChart extends ChartWidget
             ],
             'labels' => ['Ongoing', 'Completed', 'Onhold'],
         ];
+
+        if (!Auth::user()->hasRole(['manager', 'finance'])) {
+            return [
+                'datasets' => [],
+                'labels' => [],
+            ];
+        }
     }
 
     protected function getType(): string

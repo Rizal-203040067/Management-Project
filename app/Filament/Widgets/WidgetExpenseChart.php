@@ -8,6 +8,7 @@ use Flowframe\Trend\Trend;
 use App\Models\Transaction;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
 
 class WidgetExpenseChart extends ChartWidget
 {
@@ -17,6 +18,11 @@ class WidgetExpenseChart extends ChartWidget
     protected static string $color = 'danger';
 
     protected static ?int $sort = 2;
+
+    public static function canView(): bool
+    {
+        return Auth::user() && Auth::user()->hasRole(['super', 'manager']);
+    }
 
     protected function getData(): array
     {

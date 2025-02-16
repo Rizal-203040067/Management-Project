@@ -8,6 +8,7 @@ use Flowframe\Trend\Trend;
 use App\Models\Transaction;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
 
 class WidgetIncomeChart extends ChartWidget
 {
@@ -18,6 +19,11 @@ class WidgetIncomeChart extends ChartWidget
     protected static string $color = 'success';
 
     protected static ?int $sort = 2;
+
+    public static function canView(): bool
+    {
+        return Auth::user() && Auth::user()->hasRole(['super', 'manager']);
+    }
 
 
     protected function getData(): array

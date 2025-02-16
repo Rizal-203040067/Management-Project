@@ -8,6 +8,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Pages\Dashboard as BaseDashboard;
+use Illuminate\Support\Facades\Auth;
+
 
 class Dashboard extends BaseDashboard
 {
@@ -16,18 +18,20 @@ class Dashboard extends BaseDashboard
     public function filtersForm(Form $form): Form
     {
         return $form
-            ->schema([
-                Section::make()
-                    ->schema([
-                        DatePicker::make('startDate')
-                            ->default(now()->startOfMonth())
-                            ->maxDate(fn (Get $get) => $get('endDate') ?: now()),
-                        DatePicker::make('endDate')
-                            ->default(now())
-                            ->minDate(fn (Get $get) => $get('startDate') ?: now())
-                            ->maxDate(now()),
-                    ])
-                    ->columns(2),
-            ]);
+            ->schema(
+                Auth::user()->hasRole('super', 'manager') ? [ // Hanya buat Section jika user admin
+                    Section::make()
+                        ->schema([
+                            DatePicker::make('startDate')
+                                ->default(now()->startOfMonth())
+                                ->maxDate(fn (Get $get) => $get('endDate') ?: now()),
+                            DatePicker::make('endDate')
+                                ->default(now())
+                                ->minDate(fn (Get $get) => $get('startDate') ?: now())
+                                ->maxDate(now()),
+                        ])
+                        ->columns(2),
+                ] : [] // Jika bukan admin, tidak ada Section yang ditampilkan
+            );
     }
 }

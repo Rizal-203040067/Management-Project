@@ -8,18 +8,22 @@ use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
 
 class OrderChart extends ChartWidget
 {
     use InteractsWithPageFilters;
-
-    // protected int | string | array $columnSpan = 'full';
 
     protected static ?string $heading = 'Order Status Distribution';
 
     protected static string $color = 'info';
 
     protected static ?int $sort = 4;
+
+    public static function canView(): bool
+    {
+        return Auth::user() && Auth::user()->hasRole(['super', 'manager']);
+    }
 
     protected function getData(): array
     {
