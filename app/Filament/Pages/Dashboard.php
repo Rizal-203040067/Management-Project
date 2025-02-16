@@ -19,7 +19,7 @@ class Dashboard extends BaseDashboard
     {
         return $form
             ->schema(
-                Auth::user()->hasRole('super', 'manager') ? [ // Hanya buat Section jika user admin
+                Auth::user()->hasRole(['super','manager']) ? [
                     Section::make()
                         ->schema([
                             DatePicker::make('startDate')
