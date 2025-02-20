@@ -8,8 +8,6 @@ use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
-
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectChart extends ChartWidget
@@ -38,7 +36,7 @@ class ProjectChart extends ChartWidget
             now()->endOfDay();
 
         // Get counts for each status
-        $ongoingCount = Project::where('status', 'ongoing')
+        $ongoingCount = Project::where('status', 'on-going')
                     ->whereBetween('created_at', [$startDate, $endDate])
                     ->count();
 
@@ -46,7 +44,7 @@ class ProjectChart extends ChartWidget
                     ->whereBetween('created_at', [$startDate, $endDate])
                     ->count();
 
-        $onholdCount = Project::where('status', 'onhold')
+        $onholdCount = Project::where('status', 'on-hold')
                     ->whereBetween('created_at', [$startDate, $endDate])
                     ->count(); 
 
@@ -68,13 +66,6 @@ class ProjectChart extends ChartWidget
             ],
             'labels' => ['Ongoing', 'Completed', 'Onhold'],
         ];
-
-        if (!Auth::user()->hasRole(['manager', 'finance'])) {
-            return [
-                'datasets' => [],
-                'labels' => [],
-            ];
-        }
     }
 
     protected function getType(): string

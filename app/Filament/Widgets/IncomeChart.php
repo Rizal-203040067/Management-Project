@@ -10,12 +10,13 @@ use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
 
-class WidgetExpenseChart extends ChartWidget
+class IncomeChart extends ChartWidget
 {
     use InteractsWithPageFilters;
 
-    protected static ?string $heading = 'Expense';
-    protected static string $color = 'danger';
+    protected static ?string $heading = 'Income';
+
+    protected static string $color = 'success';
 
     protected static ?int $sort = 2;
 
@@ -23,6 +24,7 @@ class WidgetExpenseChart extends ChartWidget
     {
         return Auth::user() && Auth::user()->hasRole(['super', 'manager']);
     }
+
 
     protected function getData(): array
     {
@@ -34,22 +36,19 @@ class WidgetExpenseChart extends ChartWidget
             Carbon::parse($this->filters['endDate'])->endOfDay() :
             now()->endOfDay();
 
-        $data = Trend::query(Transaction::expenses())
+        $data = Trend::query(Transaction::incomes())
             ->dateColumn('date_transaction')
             ->between(
                 start: $startDate,
                 end: $endDate,
             )
             ->perDay()
-            ->sum('amount');
+            ->sum('amount');    
 
-        // dd($data);
-
-    
         return [
             'datasets' => [
                 [
-                    'label' => 'Expenses By Day',
+                    'label' => 'Incomes By Day',
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
