@@ -14,7 +14,8 @@
         class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 shadow-md">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-4 px-3">
             <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Logo">
+                <img src="https://img.icons8.com/?size=100&id=106592&format=png&color=6B21A8" class="h-8"
+                    alt="Logo">
                 <span
                     class="self-center text-2xl font-bold whitespace-nowrap dark:text-white text-purple-700">OnProject</span>
             </a>
@@ -36,14 +37,16 @@
                                     Log in
                                 </button>
                             </a>
-                            @if (Route::has('register'))
+
+                            <!-- Register untuk saat ini tidak dibutuhkan, karena akun akan dibuatkan oleh admin. Namun bisa dijalankan jika sewaktu-waktu dibutuhkan  -->
+                            {{-- @if (Route::has('register'))
                                 <a href="{{ route('register') }}">
                                     <button type="button"
                                         class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
                                         Register
                                     </button>
                                 </a>
-                            @endif
+                            @endif --}}
                         </div>
                     @endauth
                 @endif
@@ -326,13 +329,14 @@
                         </p>
                         <div class="space-y-6">
                             <p class="flex items-center text-xl font-semibold">
-                                <span class="text-2xl mr-4">📍</span> Your Address Here
+                                <span class="text-2xl mr-6">📍</span> Kaliwulu, Plered District, Cirebon Regency, West
+                                Java 45154, Indonesia.
                             </p>
                             <p class="flex items-center text-xl font-semibold">
-                                <span class="text-2xl mr-4">📞</span> Your Phone Number
+                                <span class="text-2xl mr-4">📞</span> (+62)899-548-8333
                             </p>
                             <p class="flex items-center text-xl font-semibold">
-                                <span class="text-2xl mr-4">✉️</span> your@email.com
+                                <span class="text-2xl mr-4">✉️</span> Rizal.baihaqi007@gmail.com
                             </p>
                         </div>
                     </div>
@@ -372,7 +376,7 @@
 
     <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 sm:mx-auto dark:border-gray-700">
         <div class="w-full py-4">
-            <span class="block text-sm text-gray-900 text-center">© 2023 OnProject™. All Rights Reserved.</span>
+            <span class="block text-sm text-gray-900 text-center">© 2025 OnProject™. All Rights Reserved.</span>
         </div>
     </footer>
 
