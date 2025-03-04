@@ -1,42 +1,43 @@
 var themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
 var themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
 
-// Change the icons inside the button based on previous settings
-if (
-    localStorage.getItem("color-theme") === "dark" ||
-    (!("color-theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-) {
-    themeToggleLightIcon.classList.remove("hidden");
-} else {
-    themeToggleDarkIcon.classList.remove("hidden");
+// Fungsi untuk menerapkan tema dari localStorage
+function applyThemeFromStorage() {
+    var filamentTheme = localStorage.getItem("theme") || "light"; // Default light
+    if (filamentTheme === "dark") {
+        document.documentElement.classList.add("dark");
+        themeToggleLightIcon.classList.remove("hidden");
+        themeToggleDarkIcon.classList.add("hidden");
+    } else {
+        document.documentElement.classList.remove("dark");
+        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon.classList.add("hidden");
+    }
 }
 
-var themeToggleBtn = document.getElementById("theme-toggle");
+// Terapkan tema saat halaman dimuat
+applyThemeFromStorage();
 
-themeToggleBtn.addEventListener("click", function () {
-    // toggle icons inside button
-    themeToggleDarkIcon.classList.toggle("hidden");
-    themeToggleLightIcon.classList.toggle("hidden");
+// Perbarui tema saat tombol diklik
+document.getElementById("theme-toggle").addEventListener("click", function () {
+    let newTheme = document.documentElement.classList.contains("dark")
+        ? "light"
+        : "dark";
 
-    // if set via local storage previously
-    if (localStorage.getItem("color-theme")) {
-        if (localStorage.getItem("color-theme") === "light") {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("color-theme", "dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("color-theme", "light");
-        }
+    // Terapkan tema ke halaman
+    document.documentElement.classList.toggle("dark");
 
-        // if NOT set via local storage previously
-    } else {
-        if (document.documentElement.classList.contains("dark")) {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("color-theme", "light");
-        } else {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("color-theme", "dark");
-        }
+    // Simpan tema di localStorage
+    localStorage.setItem("theme", newTheme);
+    localStorage.setItem("color-theme", newTheme);
+
+    // Terapkan perubahan langsung
+    applyThemeFromStorage();
+});
+
+// Pantau perubahan theme di localStorage secara real-time
+window.addEventListener("storage", function (event) {
+    if (event.key === "theme") {
+        applyThemeFromStorage();
     }
 });

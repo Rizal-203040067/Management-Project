@@ -17,6 +17,18 @@
     <title>Management Project</title>
 </head>
 
+{{-- Sinkronasi dark mode --}}
+<script>
+    (function() {
+        var filamentTheme = localStorage.getItem("theme") || "light";
+        if (filamentTheme === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    })();
+</script>
+
 <body>
 
     <nav
