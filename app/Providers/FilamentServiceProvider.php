@@ -29,6 +29,13 @@ class FilamentServiceProvider extends ServiceProvider
             So, if i click the Icon Profile DropBar will show/hide
         */
 
+        Filament::registerUserMenuItems([
+            UserMenuItem::make()
+                ->label('Home Page')
+                ->url('/') // Sesuaikan dengan route homepage
+                ->icon('heroicon-s-home'),
+        ]);
+
         // Filament::serving(function() {   
         //     // Provider show/hidden based on Role of the user
         //     if (auth()->user()) {
