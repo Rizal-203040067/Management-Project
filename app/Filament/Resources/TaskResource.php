@@ -30,7 +30,7 @@ class TaskResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('project_id')
+                Forms\Components\Select::make('project_id')
                     ->relationship('project', 'name')
                     ->required(),
                 Forms\Components\TextInput::make('name')
