@@ -36,7 +36,7 @@ class ProjectChart extends ChartWidget
             now()->endOfDay();
 
         // Get counts for each status
-        $ongoingCount = Project::where('status', 'on-going')
+        $ongoingCount = Project::where('status', 'ongoing')
                     ->whereBetween('created_at', [$startDate, $endDate])
                     ->count();
 
@@ -44,7 +44,7 @@ class ProjectChart extends ChartWidget
                     ->whereBetween('created_at', [$startDate, $endDate])
                     ->count();
 
-        $onholdCount = Project::where('status', 'on-hold')
+        $onholdCount = Project::where('status', 'onhold')
                     ->whereBetween('created_at', [$startDate, $endDate])
                     ->count(); 
 

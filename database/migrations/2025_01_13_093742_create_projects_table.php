@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('model');
             $table->integer('budget');
-            $table->enum('status', ['ongoing', 'completed', 'on-hold'])->default('ongoing');
+            $table->enum('status', ['ongoing', 'completed', 'onhold'])->default('ongoing');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('description');

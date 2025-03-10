@@ -50,7 +50,7 @@ class ProjectResource extends Resource
                     ->options([
                         'ongoing' => 'Ongoing',
                         'completed' => 'Completed',
-                        'on-hold' => 'On Hold',
+                        'onhold' => 'Onhold',
                     ])
                     ->required(),
                 Forms\Components\DatePicker::make('start_date')
@@ -86,13 +86,13 @@ class ProjectResource extends Resource
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'ongoing' => 'Ongoing',
                         'completed' => 'Completed',
-                        'on-hold' => 'On Hold',
+                        'onhold' => 'Onhold',
                         default => ucfirst($state),
                     })
                     ->colors([
                         'primary' => 'ongoing',
                         'success' => 'completed',
-                        'warning' => 'on-hold',
+                        'warning' => 'onhold',
                     ]),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
